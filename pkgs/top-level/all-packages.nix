@@ -1248,6 +1248,8 @@ let
 
   cloogppl = callPackage ../development/libraries/cloog-ppl { };
 
+  cobrapy = pythonPackages.cobrapy;
+  
   compass = callPackage ../development/tools/compass { };
 
   convmv = callPackage ../tools/misc/convmv { };

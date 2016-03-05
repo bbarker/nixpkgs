@@ -86,6 +86,8 @@ in modules // {
   # packages defined elsewhere
 
   blivet = callPackage ../development/python-modules/blivet { };
+  
+  cobrapy = callPackage ../development/python-modules/cobrapy { };
 
   dbus = callPackage ../development/python-modules/dbus {
     dbus = pkgs.dbus;
