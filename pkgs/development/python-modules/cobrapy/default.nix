@@ -1,4 +1,4 @@
-{ stdenv, fetchgit, python, buildPythonPackage, cython}:
+{ stdenv, fetchgit, python, buildPythonPackage, cython, glpk}:
 # { stdenv, python34, buildPythonPackage,
 #   numpy, hdf5, cython, pkgconfig}:
   
@@ -23,8 +23,10 @@ buildPythonPackage rec {
 
   configure_flags = ""; # "--hdf5=${hdf5}" + optionalString mpiSupport " --mpi";
 
+  preConfigure = "export HOME=$TMPDIR";
+
   postConfigure = ''
-    ${python.executable} setup.py configure ${configure_flags}
+    ${python.executable} setup.py develop --user 
   '';
 
   #preBuild = if mpiSupport then "export CC=${mpi}/bin/mpicc" else "";
@@ -32,6 +34,8 @@ buildPythonPackage rec {
   # buildInputs = [ hdf5 cython pkgconfig ]
   #   ++ optional mpiSupport mpi
   #   ;
+  buildInputs = [cython glpk];
+
   # propagatedBuildInputs = [ numpy six]
   #   ++ optional mpiSupport mpi4py
   #   ;
