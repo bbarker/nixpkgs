@@ -36,17 +36,21 @@ buildPythonPackage rec {
   #   ;
   buildInputs = [cython glpk];
 
+  propagatedBuildInputs = [ glpk ];
   # propagatedBuildInputs = [ numpy six]
   #   ++ optional mpiSupport mpi4py
   #   ;
 
   meta = {
     description =
-      "COBRApy is a constraint-based modeling package that is designed
+      "A package for constraint-based modeling of biological networks";
+    longDescription = ''
+      COBRApy is a constraint-based modeling package that is designed
       to accomodate the biological complexity of the next generation
       of COBRA models and provides access to commonly used COBRA
       methods, such as flux balance analysis, flux variability
-      analysis, and gene deletion analyses.";
+      analysis, and gene deletion analyses.
+    '';
     homepage = "http://opencobra.github.io/cobrapy/";
     license = with licenses; [ lgpl21 gpl2 ];
   };
