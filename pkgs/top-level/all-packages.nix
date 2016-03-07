@@ -15272,6 +15272,8 @@ let
 
   neuron = callPackage ../applications/science/biology/neuron { };
 
+  libsbml = callPackage ../development/libraries/science/biology/libsbml { };
+
   neuron-mpi = appendToName "mpi" (neuron.override {
     mpi = pkgs.openmpi;
   });
@@ -15287,7 +15289,6 @@ let
   pal2nal = callPackage ../applications/science/biology/pal2nal { };
 
   plink = callPackage ../applications/science/biology/plink/default.nix { };
-
 
   ### SCIENCE/MATH
 
