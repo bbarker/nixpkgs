@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, gmp }:
+{ stdenv, fetchurl, gmp, makeWrapper }:
 
 stdenv.mkDerivation rec {
   name    = "ats-${version}";
@@ -12,6 +12,14 @@ stdenv.mkDerivation rec {
   # this is necessary because atxt files usually include some .hats files
   patches = [ ./install-atsdoc-hats-files.patch ];
   buildInputs = [ gmp ];
+
+  postInstall = ''
+    WRAP_FILES=(atscc atsopt atsdoc)
+    for wf in ''${WRAP_FILES[*]}; do
+        wrapProgram $out/bin/$wf \
+          --set ATSHOME $out --set ATSHOMERELOC ATS-$version
+    done
+  '';
 
   meta = {
     description = "Functional programming language with dependent types";
