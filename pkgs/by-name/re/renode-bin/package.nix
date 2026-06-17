@@ -124,12 +124,9 @@ stdenv.mkDerivation (finalAttrs: {
         makeWrapper "$out/Applications/Renode.app/Contents/MacOS/renode-test" "$out/bin/renode-test" \
           --prefix PYTHONPATH : "${pythonLibs}"
 
-        # GUI wrapper: launch via 'open' so macOS registers it as an NSApplication
-        cat > $out/bin/renode-gui <<EOF
-        #!/bin/sh
-        exec open -a "$out/Applications/Renode.app" --args "\$@"
-        EOF
-        chmod +x $out/bin/renode-gui
+        # GUI wrapper: use the native GUI binary
+        makeWrapper "$out/Applications/Renode.app/Contents/MacOS/renode-ui" "$out/bin/renode-gui" \
+          --prefix PYTHONPATH : "${pythonLibs}"
 
         runHook postInstall
       ''
