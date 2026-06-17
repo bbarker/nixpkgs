@@ -124,9 +124,10 @@ stdenv.mkDerivation (finalAttrs: {
         makeWrapper "$out/Applications/Renode.app/Contents/MacOS/renode-test" "$out/bin/renode-test" \
           --prefix PYTHONPATH : "${pythonLibs}"
 
-        # GUI wrapper: use the native GUI binary
-        makeWrapper "$out/Applications/Renode.app/Contents/MacOS/renode-ui" "$out/bin/renode-gui" \
-          --prefix PYTHONPATH : "${pythonLibs}"
+        # GUI wrapper: renode --ui launches the Neutralinojs frontend (renode-ui) from the backend
+        makeWrapper "$out/Applications/Renode.app/Contents/MacOS/renode" "$out/bin/renode-gui" \
+          --prefix PYTHONPATH : "${pythonLibs}" \
+          --add-flags "--ui"
 
         runHook postInstall
       ''
