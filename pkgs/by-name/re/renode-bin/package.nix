@@ -180,6 +180,9 @@ stdenv.mkDerivation (finalAttrs: {
       install_name_tool -change /opt/homebrew/opt/libexif/lib/libexif.12.dylib ${libexif}/lib/libexif.12.dylib "$gdiplus"
       install_name_tool -change /opt/homebrew/opt/fontconfig/lib/libfontconfig.1.dylib ${fontconfig.lib}/lib/libfontconfig.1.dylib "$gdiplus"
     fi
+
+    # Ad-hoc codesign: renode-ui links WebKit and macOS SIGKILL's unsigned WebKit consumers
+    /usr/bin/codesign --force --sign - --deep "$out/Applications/Renode.app"
   '';
 
   meta = {
