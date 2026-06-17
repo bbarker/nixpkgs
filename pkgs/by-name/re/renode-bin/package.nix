@@ -63,8 +63,8 @@ let
     ];
 
   darwinSrc = fetchurl {
-    url = "https://github.com/renode/renode/releases/download/v1.16.1/renode-1.16.1-dotnet.osx-arm64-portable.dmg";
-    hash = "sha256-mbiuWJe4km7xeYaNOaUE/lKWVV3JyblzcY3fOrCRddk=";
+    url = "https://builds.renode.io/renode-latest.osx-arm64-portable.dmg";
+    hash = "sha256-qHadrwf/jX37p415TVx4NEiusfGP4KT6cgty7F4tu5U=";
   };
 in
 stdenv.mkDerivation (finalAttrs: {
