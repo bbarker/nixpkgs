@@ -14,18 +14,6 @@
   gtk3-x11,
   dconf,
   darwin ? {},
-  pango,
-  cairo,
-  harfbuzz,
-  glib,
-  freetype,
-  libjpeg,
-  libtiff,
-  giflib,
-  libpng,
-  libexif,
-  fontconfig,
-  gettext,
 }:
 
 let
@@ -162,26 +150,6 @@ stdenv.mkDerivation (finalAttrs: {
   passthru.updateScript = nix-update-script { };
 
   postFixup = lib.optionalString stdenv.hostPlatform.isDarwin ''
-    local gdiplus="$out/Applications/Renode.app/Contents/MacOS/libgdiplus.dylib"
-    if [ -f "$gdiplus" ]; then
-      # Fix the library's own install name
-      install_name_tool -id "$gdiplus" "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/pango/lib/libpangocairo-1.0.0.dylib ${pango.out}/lib/libpangocairo-1.0.0.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/pango/lib/libpango-1.0.0.dylib ${pango.out}/lib/libpango-1.0.0.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/cairo/lib/libcairo.2.dylib ${cairo.out}/lib/libcairo.2.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/harfbuzz/lib/libharfbuzz.0.dylib ${harfbuzz.out}/lib/libharfbuzz.0.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/glib/lib/libgobject-2.0.0.dylib ${glib.out}/lib/libgobject-2.0.0.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/glib/lib/libglib-2.0.0.dylib ${glib.out}/lib/libglib-2.0.0.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/gettext/lib/libintl.8.dylib ${gettext.out}/lib/libintl.8.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/freetype/lib/libfreetype.6.dylib ${freetype.out}/lib/libfreetype.6.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/jpeg-turbo/lib/libjpeg.8.dylib ${libjpeg.out}/lib/libjpeg.8.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/libtiff/lib/libtiff.6.dylib ${libtiff.out}/lib/libtiff.6.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/giflib/lib/libgif.dylib ${giflib.out}/lib/libgif.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/libpng/lib/libpng16.16.dylib ${libpng.out}/lib/libpng16.16.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/libexif/lib/libexif.12.dylib ${libexif}/lib/libexif.12.dylib "$gdiplus"
-      install_name_tool -change /opt/homebrew/opt/fontconfig/lib/libfontconfig.1.dylib ${fontconfig.lib}/lib/libfontconfig.1.dylib "$gdiplus"
-    fi
-
     # Ad-hoc codesign: renode-ui links WebKit and macOS SIGKILL's unsigned WebKit consumers
     /usr/bin/codesign --force --sign - --deep "$out/Applications/Renode.app"
   '';
